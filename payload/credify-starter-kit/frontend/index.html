@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CREDIFY Lending Dashboard (Lab)</title>
+<style>
+ body{font-family:system-ui,Arial,sans-serif;margin:0;background:#f4f6f8;color:#1b2733}
+ header{background:#0f4c81;color:#fff;padding:14px 24px;font-size:20px} main{max-width:980px;margin:20px auto;padding:0 16px}
+ section{background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px #0002}
+ h2{margin:0 0 10px;font-size:16px} input,select,button{padding:8px;margin:2px;font-size:14px}
+ button{background:#0f4c81;color:#fff;border:0;border-radius:4px;cursor:pointer}
+ table{border-collapse:collapse;width:100%;font-size:13px} th,td{border-bottom:1px solid #ddd;padding:6px;text-align:left}
+ .ms{float:right;color:#555;font-size:13px} pre{background:#eef;padding:8px;overflow:auto}
+</style></head><body>
+<header>CREDIFY Lending Dashboard <small>(fictional lab data)</small></header>
+<main>
+ <section><h2>Health <span class="ms" id="ms-health"></span></h2><button onclick="health()">Check API</button> <button onclick="stats()">Row counts</button><pre id="out-health"></pre></section>
+ <section><h2>Customer loans <span class="ms" id="ms-loans"></span></h2>
+  Customer ID <input id="cid" value="42" size="8"><button onclick="loans()">Load loans</button><div id="out-loans"></div></section>
+ <section><h2>Repayments <span class="ms" id="ms-rep"></span></h2>
+  Loan ID <input id="lid" value="1000" size="8"><button onclick="reps()">Load repayments</button><div id="out-rep"></div></section>
+ <section><h2>Portfolio report (heavy query) <span class="ms" id="ms-rpt"></span></h2><button onclick="report()">Run report</button><div id="out-rpt"></div></section>
+ <section><h2>Apply for a loan (write) <span class="ms" id="ms-apply"></span></h2>
+  Customer ID <input id="acid" value="42" size="8"> Amount (NGN) <input id="amt" value="50000" size="10">
+  <select id="prod"><option>PERSONAL</option><option>SME</option><option>SALARY_ADVANCE</option></select>
+  <button onclick="apply()">Submit</button><pre id="out-apply"></pre></section>
+</main>
+<script src="config.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+async function call(path,opts,msId){const t=performance.now();const r=await fetch(window.CREDIFY_API+path,opts);const j=await r.json();$(msId).textContent=Math.round(performance.now()-t)+" ms";return j;}
+function table(rows){if(!Array.isArray(rows)||!rows.length)return"<i>no rows</i>";const c=Object.keys(rows[0]);return"<table><tr>"+c.map(x=>"<th>"+x+"</th>").join("")+"</tr>"+rows.slice(0,50).map(r=>"<tr>"+c.map(x=>"<td>"+r[x]+"</td>").join("")+"</tr>").join("")+"</table>";}
+async function health(){$("out-health").textContent=JSON.stringify(await call("/health",{},"ms-health"));}
+async function stats(){$("out-health").textContent=JSON.stringify(await call("/api/stats",{},"ms-health"));}
+async function loans(){$("out-loans").innerHTML=table(await call("/api/customers/"+$("cid").value+"/loans",{},"ms-loans"));}
+async function reps(){$("out-rep").innerHTML=table(await call("/api/loans/"+$("lid").value+"/repayments",{},"ms-rep"));}
+async function report(){$("out-rpt").innerHTML=table(await call("/api/reports/portfolio",{},"ms-rpt"));}
+async function apply(){$("out-apply").textContent=JSON.stringify(await call("/api/loans",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({customer_id:+$("acid").value,principal:+$("amt").value,product:$("prod").value})},"ms-apply"),null,2);}
+</script></body></html>

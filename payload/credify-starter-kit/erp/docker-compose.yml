@@ -1,0 +1,20 @@
+# Odoo is the ERP tier. No custom code. For the lab you may point it at an RDS PostgreSQL database
+# (set HOST/USER/PASSWORD below and remove the "db" service) or run the bundled database for a quick test.
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: change-me
+    volumes: [ "odoo-db:/var/lib/postgresql/data" ]
+  odoo:
+    image: odoo:17.0
+    depends_on: [ db ]
+    ports: [ "8069:8069" ]
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: change-me
+    volumes: [ "odoo-data:/var/lib/odoo" ]
+volumes: { odoo-db: {}, odoo-data: {} }

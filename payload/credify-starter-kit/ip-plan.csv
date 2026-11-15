@@ -1,0 +1,7 @@
+network,cidr,purpose
+Existing Google Cloud VPC,10.10.0.0/16,Source environment - do not overlap
+Office and VPN,192.168.50.0/24,Staff access
+AWS Production VPC,10.40.0.0/16,Proposed production
+AWS DR VPC,10.50.0.0/16,Proposed DR region
+AWS Non-production VPC,10.60.0.0/16,Proposed dev and staging
+Student lab VPC,10.(100+student no.).0.0/16,One per student (manual section 7.3)

@@ -1,0 +1,18 @@
+# OPTIONAL: only if your instructor already supplies an approved remote-state bucket.
+# Replace every placeholder, save as terraform/backend.tf BEFORE the first init.
+# For existing local state, back it up securely, then terraform init -migrate-state.
+# Never add access keys here. The bucket must NOT be the application bucket this root creates.
+# Do not create another bucket from this root merely to make this example work.
+terraform {
+  backend "s3" {
+    bucket       = "REPLACE_WITH_EXISTING_APPROVED_STATE_BUCKET"
+    key          = "credify/student-5/prod-lab/terraform.tfstate"
+    region       = "af-south-1"
+    encrypt      = true
+    use_lockfile = true
+  }
+}
+# Bucket: versioning on, public access blocked, encryption and least-privilege IAM.
+# State IAM: s3:ListBucket scoped to the prefix; GetObject/PutObject on the state;
+# GetObject/PutObject/DeleteObject on terraform.tfstate.tflock for native locking.
+# Use your existing credential profile; never run concurrent local-state applies.

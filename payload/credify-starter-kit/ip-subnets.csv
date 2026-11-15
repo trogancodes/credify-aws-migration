@@ -1,0 +1,6 @@
+tier,az1,az2,az3,contents
+Public,X.0.0/24,X.1.0/24,X.2.0/24,Load balancers and NAT
+Application,X.10.0/24,X.11.0/24,X.12.0/24,API ERP LMS
+Data,X.20.0/24,X.21.0/24,X.22.0/24,Databases and cache
+Management,X.30.0/24,,,Endpoints and ops
+Reserved,X.64.0/18,,,Future growth - do not use

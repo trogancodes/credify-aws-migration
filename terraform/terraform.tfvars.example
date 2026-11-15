@@ -1,0 +1,17 @@
+# Copy this file to terraform.tfvars; replace these two placeholders.
+aws_account_id = "REPLACE_WITH_12_DIGIT_LAB_ACCOUNT"
+owner          = "REPLACE_WITH_YOUR_EMAIL"
+
+region = "af-south-1"
+phase  = "foundation"
+# Acknowledge the reviewed lab settings before planning.
+lab_settings_confirmed = false
+baseline_recorded = false
+tuning_completed  = false
+odoo_initialized  = false
+enable_waf         = false
+image_tag          = "lab1"
+# Set these to the UID/GID printed by Build-Images.ps1 before phase baseline.
+odoo_uid = 101
+odoo_gid = 101
+allow_lab_data_deletion = false

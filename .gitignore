@@ -1,0 +1,37 @@
+**/.terraform/
+**/.build/*
+!**/.build/.gitkeep
+**/terraform.tfstate*
+**/*.tfplan
+**/plan.json
+**/terraform.tfvars
+**/crash.log
+**/.env
+**/rds-ca.pem
+**/node_modules/
+**/__pycache__/
+evidence-download/
+# Commit .terraform.lock.hcl. Never commit state or passwords.
+
+
+*.tfstate*
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+.env.*
+!.env.example
+.aws/
+*.pem
+*.key
+*docker-auth*/
+.venv/
+venv/
+migration-backup/
+
+# Local backup files
+*.bak
+
+# Local troubleshooting output
+/false
+/foundation-resume-review.txt
+/foundation-review.txt
